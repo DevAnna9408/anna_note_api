@@ -37,7 +37,7 @@ class NotificationScheduler (
         instance = FirebaseMessaging.getInstance(app)
     }
 
-    @Scheduled(cron = "0 00 18 * * ?")
+    @Scheduled(cron = "0 00 22 * * ?")
     @Throws(FirebaseMessagingException::class)
     fun pushDayAlarm() {
         pushAlarm(pushAlarmQueryService.getDayAlarm())
