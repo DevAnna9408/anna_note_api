@@ -16,7 +16,7 @@ class WorryRepositoryImpl: QuerydslRepositorySupport(Worry::class.java), WorryRe
                 qWorry.postUser.oid.eq(userOid)
             )
             .limit(pageable.pageSize.toLong()).offset(pageable.offset)
-            .orderBy(qWorry.createdDate.asc())
+            .orderBy(qWorry.createdDate.desc())
             .fetchResults()
 
         return PageImpl(results.results, pageable, results.total)
