@@ -19,16 +19,15 @@ abstract class AbstractEntity(
 
 
     @CreatedDate
-    @Column(name = "CREATED_DATE", updatable = false, columnDefinition = "DATETIME")
+    @Column(name = "CREATED_AT", updatable = false, columnDefinition = "DATETIME")
     protected lateinit var createdTime: LocalDateTime
-
 
     @Column(name = "CREATED_BY", updatable = false)
     @CreatedBy
     protected var createdBy: String? = null
 
     @LastModifiedDate
-    @Column(name = "LAST_MODIFIED_DATE",columnDefinition = "DATETIME")
+    @Column(name = "LAST_MODIFIED_AT",columnDefinition = "DATETIME")
     protected lateinit var lastModifiedTime: LocalDateTime
 
     @Column(name = "LAST_MODIFIED_BY", updatable = true)
@@ -39,7 +38,7 @@ abstract class AbstractEntity(
         if (this === other) return true
         if (javaClass != other?.javaClass) return false
 
-        other as kr.co.anna.domain._common.AbstractEntity
+        other as AbstractEntity
 
         if (oid != other.oid) return false
 

@@ -1,4 +1,4 @@
-package kr.co.anna.api.service.command.firbase
+package kr.co.anna.api.service.firbase
 
 import com.google.auth.oauth2.GoogleCredentials
 import com.google.firebase.FirebaseApp
@@ -39,8 +39,14 @@ class NotificationScheduler (
 
     @Scheduled(cron = "0 00 18 * * ?")
     @Throws(FirebaseMessagingException::class)
-    fun pushDinnerAlarm() {
-        pushAlarm(pushAlarmQueryService.getPushAlarm())
+    fun pushDayAlarm() {
+        pushAlarm(pushAlarmQueryService.getDayAlarm())
+    }
+
+    @Scheduled(cron = "0 00 08 * * ?")
+    @Throws(FirebaseMessagingException::class)
+    fun pushNightAlarm() {
+        pushAlarm(pushAlarmQueryService.getNightAlarm())
     }
 
     @Throws(FirebaseMessagingException::class)

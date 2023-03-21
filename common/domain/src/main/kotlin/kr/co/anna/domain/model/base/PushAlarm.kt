@@ -17,10 +17,19 @@ class PushAlarm (
     private val title: String,
 
     @Column(name = "MESSAGE")
-    private val message: String
+    private val message: String,
 
-        ) {
+    @Enumerated(EnumType.STRING)
+    @Column(name = "ALARM_TYPE")
+    private val alarmType: AlarmType
 
-        fun title() = title
-        fun message() = message
+    ) {
+
+    enum class AlarmType(val value: String) {
+        DAY("오전오후"),
+        NIGHT("저녁새벽")
+    }
+
+    fun title() = title
+    fun message() = message
 }

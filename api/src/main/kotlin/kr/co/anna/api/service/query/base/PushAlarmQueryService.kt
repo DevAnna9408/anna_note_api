@@ -13,12 +13,21 @@ class PushAlarmQueryService (
 
         ) {
 
-    fun getPushAlarm(): PushAlarmOut {
+    fun getDayAlarm(): PushAlarmOut {
+        val alarm = pushAlarmRepository
+            .findAll()
+            .random()
+        return PushAlarmOut(
+            title = alarm.title(),
+            message = alarm.message()
+        )
+    }
+
+    fun getNightAlarm(): PushAlarmOut {
         val alarm = pushAlarmRepository.findAll().random()
         return PushAlarmOut(
             title = alarm.title(),
             message = alarm.message()
         )
-
     }
 }
