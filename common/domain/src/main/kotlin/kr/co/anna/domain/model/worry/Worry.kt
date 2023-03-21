@@ -20,7 +20,7 @@ class Worry (
 
     @Enumerated(EnumType.STRING)
     @Column(name = "WORRY_TAG")
-    private val worryTag: WorryTag = WorryTag.NONE,
+    private var worryTag: WorryTag = WorryTag.NONE,
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "POST_USER")
@@ -44,5 +44,9 @@ class Worry (
 
     fun edit(content: String) {
         this.content = content
+    }
+
+    fun changeWorryTag(worryTag: WorryTag) {
+        this.worryTag = worryTag
     }
 }

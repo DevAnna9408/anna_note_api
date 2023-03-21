@@ -1,8 +1,10 @@
 package kr.co.anna.api.service.command.worry
 
+import kr.co.anna.api.dto.base.WorryTagOut
 import kr.co.anna.api.dto.worry.WorryEditIn
 import kr.co.anna.api.dto.worry.WorryIn
 import kr.co.anna.api.dto.worry.WorryOut
+import kr.co.anna.api.dto.worry.WorryTagEditIn
 import kr.co.anna.domain.repository.user.UserRepository
 import kr.co.anna.domain.repository.worry.WorryRepository
 import kr.co.anna.lib.security.SecurityUtil
@@ -35,6 +37,16 @@ class WorryCommandService (
         SecurityUtil.checkUserOid(userOid)
         val worry = getWorry(worryOid)
         worryRepository.delete(worry)
+    }
+
+    fun changeWorryTag(userOid: Long, worryTagEditIn: WorryTagEditIn): WorryTagOut {
+        SecurityUtil.checkUserOid(userOid)
+        val worry = worryRepository.getById(worryTagEditIn.worryOid)
+        worry.changeWorryTag(worryTagEditIn.worryTag)
+        return WorryTagOut(
+            code = worryTagEditIn.worryTag.name,
+            value = worryTagEditIn.worryTag.value
+        )
     }
 
     private fun getUser(userOid: Long) = userRepository.getByOid(userOid)

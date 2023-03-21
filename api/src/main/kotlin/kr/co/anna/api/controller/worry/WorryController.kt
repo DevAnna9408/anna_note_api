@@ -2,9 +2,11 @@ package kr.co.anna.api.controller.worry
 
 import io.swagger.v3.oas.annotations.Operation
 import io.swagger.v3.oas.annotations.tags.Tag
+import kr.co.anna.api.dto.base.WorryTagOut
 import kr.co.anna.api.dto.worry.WorryEditIn
 import kr.co.anna.api.dto.worry.WorryIn
 import kr.co.anna.api.dto.worry.WorryOut
+import kr.co.anna.api.dto.worry.WorryTagEditIn
 import kr.co.anna.api.service.command.worry.WorryCommandService
 import kr.co.anna.api.service.query.worry.WorryQueryService
 import org.springframework.data.domain.Page
@@ -59,5 +61,14 @@ class WorryController (
     ): ResponseEntity<Nothing> {
         worryCommandService.deleteWorry(userOid, worryOid)
      return ResponseEntity.noContent().build()
+    }
+
+    @Operation(summary = "걱정 태그 수정")
+    @PatchMapping
+    fun changeWorryTag(
+        @RequestParam("userOid") userOid: Long,
+        @RequestBody worryTagEditIn: WorryTagEditIn
+    ): ResponseEntity<WorryTagOut> {
+        return ResponseEntity.ok(worryCommandService.changeWorryTag(userOid, worryTagEditIn))
     }
 }
