@@ -16,7 +16,7 @@ class Worry (
     private val createdDate: LocalDateTime = LocalDateTime.now(),
 
     @Column(name = "CONTENT")
-    private val content: String,
+    private var content: String,
 
     @Enumerated(EnumType.STRING)
     @Column(name = "WORRY_TAG")
@@ -41,4 +41,8 @@ class Worry (
     fun content() = content
     fun worryTag() = worryTag
     fun postUser() = postUser
+
+    fun edit(content: String) {
+        this.content = content
+    }
 }
