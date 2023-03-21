@@ -1,6 +1,7 @@
 package kr.co.anna.domain.model.worry
 
 import kr.co.anna.domain._common.AbstractEntity
+import kr.co.anna.domain.model.dream.Dream
 import kr.co.anna.domain.model.user.User
 import java.security.PrivateKey
 import java.time.LocalDateTime
@@ -24,7 +25,14 @@ class Worry (
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "POST_USER")
-    private val postUser: User
+    private val postUser: User,
+
+    @OneToMany(
+        mappedBy = "worry",
+        cascade = [CascadeType.ALL],
+        orphanRemoval = true
+    )
+    private val dreams: MutableList<Dream> = mutableListOf()
 
     ): AbstractEntity(oid) {
 
