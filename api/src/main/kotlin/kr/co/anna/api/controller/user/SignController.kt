@@ -8,7 +8,6 @@ import kr.co.anna.api.service.command.user.UserLoginService
 import kr.co.anna.domain._common.EnumMapper
 import kr.co.anna.domain._common.EnumValue
 import kr.co.anna.lib.error.InvalidException
-import kr.co.anna.lib.security.SecurityUtil
 import kr.co.anna.lib.utils.MessageUtil
 import org.springframework.http.ResponseEntity
 import org.springframework.validation.BindingResult
@@ -25,9 +24,9 @@ class SignController(
 ) {
     @Operation(summary = "회원 가입")
     @PostMapping("/sign-up")
-    fun createMember(@RequestBody signUpIn: SignUpIn): ResponseEntity<UserSimpleOut> {
-        val memberOut = userCommandService.createUser(signUpIn)
-        return ResponseEntity.ok(memberOut)
+    fun createMember(@RequestBody signUpIn: SignUpIn): ResponseEntity<Nothing> {
+        userCommandService.createUser(signUpIn)
+        return ResponseEntity.noContent().build()
     }
 
     @Operation(summary = "로그인")
@@ -37,20 +36,32 @@ class SignController(
         return ResponseEntity.ok(userLoginService.login(signIn))
     }
 
-    @Operation(summary = "비밀번호 찾기")
-    @GetMapping("/find/password")
-    fun findPassword(@RequestParam userId: String, @RequestParam email: String) {
-        userCommandService.findPassword(userId, email)
+    @Operation(summary = "비밀번호 질문 찾기")
+    @GetMapping("/find-password")
+    fun findQuestion(
+        @RequestParam("userId") userId: String,
+        @RequestParam("email") email: String
+    ): ResponseEntity<String> {
+        return ResponseEntity.ok(userCommandService.findQuestion(userId, email))
     }
 
-    @Operation(summary = "초기 비밀번호 변경")
-    @PatchMapping("/{oid}/change-init-password")
-    fun changeInitPassword(
-        @PathVariable("oid") oid: Long,
+    @Operation(summary = "비밀번호 질문에 대한 답변")
+    @PostMapping("/answer-password")
+    fun answerPassword(
+        @RequestParam("userId") userId: String,
+        @RequestParam("email") email: String,
+        @RequestParam("answer") answer: String
+    ): ResponseEntity<Boolean> {
+        return ResponseEntity.ok(userCommandService.answerPassword(userId, email, answer))
+    }
+
+    @Operation(summary = "비밀번호 재설정")
+    @PutMapping("/change-password/{userId}")
+    fun changePassword(
+        @PathVariable("userId") userId: String,
         @RequestBody passwordIn: PasswordIn
-    ): ResponseEntity<Nothing> {
-        SecurityUtil.checkUserOid(oid)
-        userCommandService.changePassword(oid, passwordIn)
+    ) : ResponseEntity<Nothing> {
+        userCommandService.changePasswordAfterFind(userId, passwordIn)
         return ResponseEntity.noContent().build()
     }
 
@@ -61,13 +72,4 @@ class SignController(
         // return ResponseEntity.ok(Role.values().map { EnumValue(it) })
     }
 
-
-    @Operation(summary = "이메일, 아이디 중복체크")
-    @GetMapping("/sign-up/check")
-    fun isUse(
-        @RequestParam type: String,
-        @RequestParam value: String
-    ): ResponseEntity<Boolean?>? {
-        return ResponseEntity.ok(this.userCommandService.isUse(type, value))
-    }
 }

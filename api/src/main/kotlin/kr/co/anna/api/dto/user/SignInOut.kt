@@ -10,10 +10,9 @@ data class SignInOut(
     val customInfo: CustomInfo,
 ) {
     data class CustomInfo(
-        val userName: String?,
-        val email: String?,
-        val userOid: Long?
-    )
+        val userOid: Long?,
+        val userId: String
+        )
 
     companion object {
         fun from(signInUser: SignInUser, accessToken: String): SignInOut {
@@ -22,9 +21,8 @@ data class SignInOut(
                 accessToken = accessToken,
                 roles = signInUser.roles().map { EnumValue(it) },
                 customInfo = CustomInfo(
-                    userName = signInUser.name(),
-                    email = signInUser.email(),
-                    userOid = signInUser.userOid()
+                    userOid = signInUser.userOid(),
+                    userId = signInUser.userId()
                 )
             )
         }

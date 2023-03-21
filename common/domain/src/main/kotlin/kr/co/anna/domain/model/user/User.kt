@@ -11,10 +11,10 @@ import javax.persistence.*
  */
 @Entity
 @Table(
-    name = "USER",
+    name = "A_USER",
     indexes = [
         Index(name = "IDX_USER__USER_ID", columnList = "USER_ID", unique = true),
-        Index(name = "IDX_USER__EMAIL", columnList = "EMAIL", unique = true),
+        Index(name = "IDX_USER__EMAIL", columnList = "EMAIL", unique = true)
     ]
 )
 class User(
@@ -22,9 +22,6 @@ class User(
 
     @Column(name = "USER_ID")
     val userId: String, //수정불가
-
-    @Column(name = "NAME")
-    private var name: String,
 
     @Column(name = "EMAIL")
     private var email: String,
@@ -36,6 +33,12 @@ class User(
     @Convert(converter = RoleEnumToListConvert::class)
     private var roles: List<Role>,
 
+    @Column(name = "QUESTION")
+    private val question: String,
+
+    @Column(name = "ANSWER")
+    private val answer: String,
+
     @Enumerated(EnumType.STRING)
     @Column(name = "STATUS")
     private var status: Status = Status.ACTIVE, // 사용자 상태 코드
@@ -46,7 +49,7 @@ class User(
     @Column(name = "LOCK_YN")
     private var locked: Boolean = false//계정잠김
 
-) : kr.co.anna.domain._common.AbstractEntity(oid) {
+) : AbstractEntity(oid) {
 
     enum class Status(private val korName: String, private val engName: String) : EnumModel {
 
@@ -71,22 +74,7 @@ class User(
         this.password = password
     }
 
-
-    fun updateWith(n: NewValue) {
-        if (!n.name.isNullOrBlank()) this.name = n.name
-        if (!n.email.isNullOrBlank()) this.email = n.email
-        if (!n.password.isNullOrBlank()) this.password = n.password
-        this.status = n.status
-        this.failCnt = n.failCnt
-        this.locked = n.locked
-        this.roles = n.roles
-
-
-    }
-
-
     data class NewValue(
-        val name: String? = null,
         val email: String? = null,
         val password: String? = null,
         val roles: MutableList<Role> = mutableListOf(Role.ROLE_USER),
@@ -95,27 +83,32 @@ class User(
         val locked: Boolean = false
     )
 
-    fun name() = name
     fun email() = email
     fun password() = password
     fun status() = status
     fun failCnt() = failCnt
     fun locked() = locked
     fun role() = roles
+    fun question() = question
+    fun answer() = answer
     fun checkActiveUser(): Boolean {
         return status().equals(Status.ACTIVE)
     }
 
-    fun unlock() {
-        this.failCnt = 0
-        this.locked = false
-    }
-
-    // 캡챠
     fun checkLock (failMaxCnt: Int)  {
         this.failCnt += 1
         if (this.failCnt > failMaxCnt) {
             this.locked = true
         }
+    }
+
+    fun deleteUser() {
+        this.status = Status.WITHDRAW
+    }
+
+    fun reset() {
+        this.status = Status.ACTIVE
+        this.failCnt = 0
+        this.locked = false
     }
 }

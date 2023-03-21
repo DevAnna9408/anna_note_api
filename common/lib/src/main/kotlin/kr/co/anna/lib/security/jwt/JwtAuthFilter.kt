@@ -1,6 +1,8 @@
 package kr.co.anna.lib.security.jwt
 
 import org.springframework.security.core.context.SecurityContextHolder
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher
+import org.springframework.security.web.util.matcher.OrRequestMatcher
 import org.springframework.web.filter.OncePerRequestFilter
 import javax.servlet.FilterChain
 import javax.servlet.http.HttpServletRequest
@@ -33,6 +35,34 @@ class JwtAuthFilter(private val jwtProcessor: JwtProcessor) :
         return if (!bearerToken.isNullOrBlank() && bearerToken.startsWith(BEARER_PREFIX, true)) {
             bearerToken.substring(BEARER_PREFIX.length)
         } else null
+    }
+
+    override fun shouldNotFilter(request: HttpServletRequest): Boolean {
+        val orRequestMatcher = OrRequestMatcher(
+            jwtExemptionList()
+                .map { AntPathRequestMatcher(it) }
+                .toList(),
+        )
+        return orRequestMatcher.matches(request)
+    }
+
+    private fun jwtExemptionList(): List<String> {
+        return listOf(
+            "/",
+            "/jwt/**",
+            "/management/health",
+            "/management/info",
+            "/swagger-ui.html",
+            "/swagger-ui/**",
+            "/v3/api-docs/**",
+            "/v3/api-docs.yaml",
+            "/h2-console/**",
+            "/api/sign-in",
+            "/api/sign-up",
+            "/api/find-password",
+            "/api/answer-password",
+            "/api/change-password/**",
+        )
     }
 
 }

@@ -53,43 +53,8 @@ class UserRepositoryImpl : QuerydslRepositorySupport(User::class.java), UserRepo
                 DomainMessageUtil.getMessage("CHECK_ID_EMAIL"))
     }
 
-
-
-    override fun searchUsers(
-        name: String?,
-        pageable: Pageable
-    ): Page<User> {
-        val result = from(qUser)
-            .where(
-                isActive(),
-                containsName(name,qUser.name),
-            )
-            .fetchAll()
-        val pagedResult = querydsl!!.applyPagination(pageable, result).fetch() ?: emptyList()
-        return PageableExecutionUtils.getPage(pagedResult, pageable) { result.fetchCount() }
-    }
-
-    override fun findByUserId(userId: String): Optional<User> {
-        return Optional.ofNullable(from(qUser)
-            .where(
-                isActive(),
-                qUser.userId.eq(userId),
-            )
-            .fetchOne())
-    }
-
-
-    override fun findByEmail(email: String): Optional<User> {
-        return Optional.ofNullable(from(qUser)
-            .where(
-                isActive(),
-                qUser.email.eq(email),
-            )
-            .fetchOne())
-    }
-
-
     private fun isActive(): BooleanExpression? {
         return  qUser.status.eq(User.Status.ACTIVE)
     }
+
 }

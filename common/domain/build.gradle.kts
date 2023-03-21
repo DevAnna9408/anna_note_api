@@ -13,7 +13,7 @@ plugins {
 }
 
 group = "kr.co.anna.common"
-version = "0.0.1-SNAPSHOT"
+version = "TODAY_DINNER_BUILD"
 java.sourceCompatibility = JavaVersion.VERSION_11
 
 configurations {

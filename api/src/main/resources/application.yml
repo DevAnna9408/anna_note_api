@@ -1,3 +1,6 @@
+server:
+  port: 8096
+
 spring:
   profiles:
     include:
@@ -8,7 +11,7 @@ spring:
     max-request-size:  20MB
 
 jwt:
-  base64EncodedSecret: eyJzdWIiOiJBbm5hIENsZWFuIFByb2plY3QiLCJuYW1lIjoiRGV2IEFubmEiLCJhZG1pbiI6dHJ1ZX0
+  base64EncodedSecret: eyJzdWIiOiJ0b2RheURpbm5lciIsIm5hbWUiOiJEZXZBbm5hIiwiYWRtaW4iOnRydWUsImlhdCI6MTUxNjIzOTAyMn0
   tokenDurationHr: 24
   swaggerTokenDurationHr: 24
   generator.enabled: true

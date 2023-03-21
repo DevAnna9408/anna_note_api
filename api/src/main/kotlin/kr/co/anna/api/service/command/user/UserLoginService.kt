@@ -2,7 +2,6 @@ package kr.co.anna.api.service.command.user
 
 import kr.co.anna.api.dto.user.SignInIn
 import kr.co.anna.api.dto.user.SignInOut
-import kr.co.anna.domain.model.user.User
 import kr.co.anna.domain.repository.user.UserRepository
 import kr.co.anna.lib.error.UnauthenticatedAccessException
 import kr.co.anna.lib.security.SignInUser
@@ -12,7 +11,6 @@ import org.springframework.beans.factory.annotation.Value
 import org.springframework.security.authentication.*
 import org.springframework.security.core.Authentication
 import org.springframework.stereotype.Service
-import org.springframework.transaction.annotation.Propagation
 import org.springframework.transaction.annotation.Transactional
 
 

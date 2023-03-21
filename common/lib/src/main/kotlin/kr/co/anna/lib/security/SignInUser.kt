@@ -36,10 +36,10 @@ class SignInUser(
         return user.checkActiveUser()
     }
 
-    fun name() = user.name()
     fun email() = user.email()
     fun userOid() = user.oid
     fun roles() = user.role()
     fun status() = user.status()
+    fun userId() = user.userId
 
 }

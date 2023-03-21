@@ -26,7 +26,6 @@ import org.springframework.web.cors.CorsConfiguration
 import org.springframework.web.cors.CorsConfigurationSource
 import org.springframework.web.cors.CorsUtils
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource
-import org.springframework.web.servlet.HandlerExceptionResolver
 import javax.servlet.http.HttpServletRequest
 import javax.servlet.http.HttpServletResponse
 
@@ -60,7 +59,9 @@ class SecurityConfig(
             .antMatchers(*swaggerAllowedList()).permitAll()
             .antMatchers(*actuatorAllowedList()).permitAll()
             .antMatchers(*devAllowedList()).permitAll()
+            .antMatchers(HttpMethod.GET, *signAllowedList()).permitAll()
             .antMatchers(HttpMethod.POST, *signAllowedList()).permitAll()
+            .antMatchers(HttpMethod.PUT, *signAllowedList()).permitAll()
             .antMatchers(HttpMethod.GET, *findAllowedList()).permitAll()
             .antMatchers(HttpMethod.PATCH, *changeAllowedList()).permitAll()
             .antMatchers(HttpMethod.GET, *checkAllowedList()).permitAll()
@@ -101,7 +102,7 @@ class SecurityConfig(
     @Bean
     fun corsConfigurationSource(): CorsConfigurationSource? {
         val configuration = CorsConfiguration()
-        configuration.addAllowedOriginPattern("http://localhost:3000")
+        configuration.addAllowedOriginPattern("http://localhost:3040")
         configuration.addAllowedMethod("*")
         configuration.addAllowedHeader("*")
         configuration.allowCredentials = true
@@ -131,6 +132,9 @@ class SecurityConfig(
         return arrayOf(
             "/api/sign-up",
             "/api/sign-in",
+            "/api/find-password",
+            "/api/answer-password",
+            "/api/change-password/**",
         )
     }
 
