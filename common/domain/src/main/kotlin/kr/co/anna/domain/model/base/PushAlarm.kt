@@ -32,4 +32,5 @@ class PushAlarm (
 
     fun title() = title
     fun message() = message
+    fun alarmType() = alarmType
 }
