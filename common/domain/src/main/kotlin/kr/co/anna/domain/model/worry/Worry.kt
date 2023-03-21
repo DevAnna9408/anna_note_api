@@ -50,10 +50,6 @@ class Worry (
     fun worryTag() = worryTag
     fun postUser() = postUser
 
-    fun edit(content: String) {
-        this.content = content
-    }
-
     fun changeWorryTag(worryTag: WorryTag) {
         this.worryTag = worryTag
     }
