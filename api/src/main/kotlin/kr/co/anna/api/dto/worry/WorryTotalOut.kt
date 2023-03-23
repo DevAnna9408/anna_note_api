@@ -13,5 +13,6 @@ data class WorryTotalOut(
     val occurrenceCount : Int,
     val tinyCount: Int,
     val cannotResolveCount: Int,
-    val doneCount: Int
+    val doneCount: Int,
+    val maxWorry: WorryTagAndTotalOut
 )
