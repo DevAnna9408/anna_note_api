@@ -22,4 +22,12 @@ class WorryRepositoryImpl: QuerydslRepositorySupport(Worry::class.java), WorryRe
         return PageImpl(results.results, pageable, results.total)
     }
 
+    override fun getTotalWorries(userOid: Long): List<Worry> {
+        return from(qWorry)
+            .where(
+                qWorry.postUser.oid.eq(userOid)
+            )
+            .fetch() ?: emptyList()
+    }
+
 }

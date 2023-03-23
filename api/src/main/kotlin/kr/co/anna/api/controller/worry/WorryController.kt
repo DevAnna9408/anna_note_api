@@ -6,6 +6,7 @@ import kr.co.anna.api.dto.base.WorryTagOut
 import kr.co.anna.api.dto.worry.WorryIn
 import kr.co.anna.api.dto.worry.WorryOut
 import kr.co.anna.api.dto.worry.WorryTagEditIn
+import kr.co.anna.api.dto.worry.WorryTotalOut
 import kr.co.anna.api.service.command.worry.WorryCommandService
 import kr.co.anna.api.service.query.worry.WorryQueryService
 import org.springframework.data.domain.Page
@@ -59,5 +60,13 @@ class WorryController (
         @RequestBody worryTagEditIn: WorryTagEditIn
     ): ResponseEntity<WorryTagOut> {
         return ResponseEntity.ok(worryCommandService.changeWorryTag(userOid, worryTagEditIn))
+    }
+
+    @Operation(summary = "걱정 통계")
+    @GetMapping("/total")
+    fun getTotalWorries(
+        @RequestParam("userOid") userOid: Long
+    ): ResponseEntity<WorryTotalOut> {
+        return ResponseEntity.ok(worryQueryService.getTotalWorries(userOid))
     }
 }

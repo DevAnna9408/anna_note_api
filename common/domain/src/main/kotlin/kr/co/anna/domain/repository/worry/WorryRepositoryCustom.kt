@@ -6,4 +6,5 @@ import org.springframework.data.domain.Pageable
 
 interface WorryRepositoryCustom {
     fun getPagedWorry(userOid: Long, pageable: Pageable): Page<Worry>
+    fun getTotalWorries(userOid: Long): List<Worry>
 }
