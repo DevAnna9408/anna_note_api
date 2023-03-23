@@ -25,4 +25,10 @@ class DreamCommandService (
         dreamRepository.save(dreamIn.toEntity(user, worry))
     }
 
+    fun deleteDream(userOid: Long, dreamOid: Long) {
+        SecurityUtil.checkUserOid(userOid)
+        val dream = dreamRepository.getById(dreamOid)
+        dreamRepository.delete(dream)
+    }
+
 }

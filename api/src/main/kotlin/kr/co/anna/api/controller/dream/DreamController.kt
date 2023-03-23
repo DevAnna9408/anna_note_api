@@ -42,5 +42,15 @@ class DreamController (
         return ResponseEntity.ok(dreamQueryService.getPagedDream(userOid, pageable))
     }
 
+    @Operation(summary = "다짐 삭제")
+    @DeleteMapping
+    fun deleteDream(
+        @RequestParam("userOid") userOid: Long,
+        @RequestParam("dreamOid") dreamOid: Long
+    ) : ResponseEntity<Nothing> {
+        dreamCommandService.deleteDream(userOid, dreamOid)
+        return ResponseEntity.noContent().build()
+    }
+
 
 }
