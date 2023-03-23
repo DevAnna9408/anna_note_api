@@ -16,7 +16,7 @@ class Worry (
     @Column(name = "CREATED_DATE")
     private val createdDate: LocalDateTime = LocalDateTime.now(),
 
-    @Column(name = "CONTENT")
+    @Column(name = "CONTENT", length = 1024)
     private var content: String,
 
     @Enumerated(EnumType.STRING)
