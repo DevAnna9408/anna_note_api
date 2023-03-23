@@ -9,7 +9,7 @@ plugins {
 }
 
 group = "kr.co.anna"
-version = "TODAY_DINNER_BUILD"
+version = "api-0.0.1-SNAPSHOT"
 java.sourceCompatibility = JavaVersion.VERSION_11
 
 configurations {
