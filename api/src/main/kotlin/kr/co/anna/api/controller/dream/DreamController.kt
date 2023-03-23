@@ -3,7 +3,12 @@ package kr.co.anna.api.controller.dream
 import io.swagger.v3.oas.annotations.Operation
 import io.swagger.v3.oas.annotations.tags.Tag
 import kr.co.anna.api.dto.dream.DreamIn
+import kr.co.anna.api.dto.dream.DreamOut
 import kr.co.anna.api.service.command.dream.DreamCommandService
+import kr.co.anna.api.service.query.dream.DreamQueryService
+import org.springframework.data.domain.Page
+import org.springframework.data.domain.Pageable
+import org.springframework.data.web.PageableDefault
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
 
@@ -12,6 +17,7 @@ import org.springframework.web.bind.annotation.*
 @RequestMapping("/api/dream")
 class DreamController (
 
+    private val dreamQueryService: DreamQueryService,
     private val dreamCommandService: DreamCommandService
 
         ) {
@@ -26,5 +32,15 @@ class DreamController (
         dreamCommandService.createDream(userOid, worryOid, dreamIn)
         return ResponseEntity.noContent().build()
     }
+
+    @Operation(summary = "다짐 조회")
+    @GetMapping("/paged")
+    fun getPagedDream(
+        @RequestParam("userOid") userOid: Long,
+        @PageableDefault pageable: Pageable
+    ): ResponseEntity<Page<DreamOut>> {
+        return ResponseEntity.ok(dreamQueryService.getPagedDream(userOid, pageable))
+    }
+
 
 }
