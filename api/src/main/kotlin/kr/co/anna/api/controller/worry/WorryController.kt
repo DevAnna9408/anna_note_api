@@ -53,7 +53,7 @@ class WorryController (
     }
 
     @Operation(summary = "걱정 태그 수정")
-    @PatchMapping("/worry-tag")
+    @PatchMapping("/tag")
     fun changeWorryTag(
         @RequestParam("userOid") userOid: Long,
         @RequestBody worryTagEditIn: WorryTagEditIn
