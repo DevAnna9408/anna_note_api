@@ -28,7 +28,7 @@ class NotificationScheduler (
     @Throws(IOException::class)
     fun firebaseSetting() {
         val googleCredentials =
-            GoogleCredentials.fromStream(ClassPathResource("firebase/anna-note-firebase-adminsdk-h5xpd-43ac51255f.json").inputStream)
+            GoogleCredentials.fromStream(ClassPathResource("firebase/.json").inputStream)
                 .createScoped(listOf("https://www.googleapis.com/auth/firebase.messaging"))
         val secondaryAppConfig = FirebaseOptions.builder()
             .setCredentials(googleCredentials)
@@ -58,7 +58,7 @@ class NotificationScheduler (
     fun getMessage(data: PushAlarmOut): Message {
         val notification = Notification.builder().setTitle(data.title).setBody(data.message).build()
         val builder = Message.builder()
-        val topic = "anna_note"
+        val topic = ""
         return builder.setTopic(topic).setNotification(notification).build()
     }
 
